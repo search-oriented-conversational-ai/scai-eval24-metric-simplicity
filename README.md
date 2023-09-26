@@ -33,7 +33,7 @@ python3 simplicity.py example.ndjson
 ```bash
 docker build -t webis/scai-eval24-metric-simplicity:1.0.0 .
 docker run --rm -it -v $PWD:/data webis/scai-eval24-metric-simplicity:1.0.0 /data/example.ndjson
-docker publish webis/scai-eval24-metric-simplicity:1.0.0
+docker push webis/scai-eval24-metric-simplicity:1.0.0
 ```
 
 ## TIRA
