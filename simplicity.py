@@ -1,7 +1,5 @@
 import click
 
-features = ["fkre", "rt_average"]
-
 @click.command()
 @click.argument('inputs', nargs=-1, type=click.File())
 def simplicity(inputs):
@@ -10,14 +8,22 @@ def simplicity(inputs):
     import spacy
 
     nlp = spacy.load("en_core_web_sm")
-    scores = {}
+    labels = {}
     for file in inputs:
         for conversation in ndjson.reader(file):
             for turn in conversation["turns"]:
                 turn_id = turn["id"]
                 response = turn["response"]
-                scores[turn_id] = lftk.Extractor(docs = nlp(response)).extract(features = features)
-    print(ndjson.dumps([scores]))
+                score = lftk.Extractor(docs = nlp(response)).extract(features = ["fkre"])["fkre"]
+                if score <= 30:
+                    labels[turn_id] = ["very-difficult"]
+                elif score <= 60:
+                    labels[turn_id] = ["difficult"]
+                elif score <= 90:
+                    labels[turn_id] = ["easy"]
+                else:
+                    labels[turn_id] = ["very-easy"]
+    print(ndjson.dumps([labels]))
 
 if __name__ == '__main__':
     simplicity()
