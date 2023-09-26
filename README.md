@@ -1,4 +1,4 @@
-# scai-eval-simplicity
+# SCAI Eval 2024 Metric: Simplicity
 Calculates Flesch-Kincaid readability levels for SCAI Eval.
 
 Labels each turn based on the readability score of the response, loosely based on the [table in Wikipedia](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests#Flesch_reading_ease):
