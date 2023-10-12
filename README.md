@@ -15,6 +15,7 @@ else:
 
 Calculation is based on [LFTK](https://github.com/brucewlee/lftk).
 
+
 ## Local
 Setup
 ```bash
@@ -29,14 +30,28 @@ Run
 python3 simplicity.py example.ndjson
 ```
 
-## Docker
+
+## Dockerized
 ```bash
-docker build -t webis/scai-eval24-metric-simplicity:1.0.0 .
-docker run --rm -it -v $PWD:/data webis/scai-eval24-metric-simplicity:1.0.0 /data/example.ndjson
-docker push webis/scai-eval24-metric-simplicity:1.0.0
+docker build -t registry.webis.de/code-research/tira/tira-user-scai-info/scai-eval24-metric-simplicity:1.0.0 .
+docker run --rm -it -v $PWD:/data registry.webis.de/code-research/tira/tira-user-scai-info/scai-eval24-metric-simplicity:1.0.0 /data/example.ndjson
 ```
 
-## TIRA
+Run on SCAI Eval 2024 data (will be downloaded automatically)
 ```bash
-python3 /app/simplicity.py $inputDataset/* > $outputDir/run.ndjson
+tira-run \
+  --input-dataset scai-eval-2024-metric-submission/scai-eval24-2023-09-26-20230926-training \
+  --image registry.webis.de/code-research/tira/tira-user-scai-info/scai-eval24-metric-simplicity:1.0.0 \
+  --evaluate true \
+  --command 'python3 /app/simplicity.py $inputDataset/* > $outputDir/run.json'
+
+# view labels
+less tira-output/run.json
 ```
+
+In step 2 of the "Create New Docker Software" dialog in TIRA, click on "PUSH NEW DOCKER IMAGE" to get instructions to upload your own image. Use the same command as above in TIRA. For this metric, it is:
+```bash
+python3 /app/simplicity.py $inputDataset/* > $outputDir/run.json
+```
+
+
